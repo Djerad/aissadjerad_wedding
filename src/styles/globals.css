@@ -113,16 +113,46 @@ img {
 .luxury-btn:hover {
   background: var(--gold);
   color: var(--ivory);
-  box-shadow: 0 6px 24px rgba(198, 161, 91, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(198, 161, 91, 0.4);
 }
 
 .luxury-btn:active {
-  transform: scale(0.97);
+  transform: translateY(1px) scale(0.96);
+  box-shadow: 0 2px 10px rgba(198, 161, 91, 0.3);
+  transition-duration: 0.1s;
 }
 
 .luxury-btn:focus-visible {
   outline: 2px solid var(--dark-green);
   outline-offset: 3px;
+}
+
+/* Wraps a .luxury-btn to give it a gentle idle float, independent of the
+   button's own hover/press transform (and, where the button also carries a
+   Framer entrance animation, independent of that too) — putting both on the
+   same element would have them fight over the `transform` property. */
+.btn-float {
+  display: inline-block;
+  animation: btn-float 3.6s ease-in-out infinite;
+}
+
+/* Settle in place the moment a pointer actually reaches it — a target that
+   never stops moving is harder to click precisely and reads as janky rather
+   than elegant. Idle, it floats to draw the eye; under the cursor, it holds
+   still so the hover/press feedback reads clearly. */
+.btn-float:hover {
+  animation-play-state: paused;
+}
+
+@keyframes btn-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 /* Full-viewport overlay used by the pre-invitation stages (splash, envelope).

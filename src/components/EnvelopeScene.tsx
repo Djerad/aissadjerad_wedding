@@ -127,19 +127,24 @@ export default function EnvelopeScene({ onOpened }: { onOpened: () => void }) {
         <BotanicalCorner position="bottom-right" className="envelope-decor envelope-decor--br" />
       </div>
 
+      {/* Entrance/exit slide lives on this wrapper, not on the button itself:
+          a motion element animating `y` owns its `transform` outright, which
+          would silently swallow the button's own CSS hover/press transform
+          (the same issue the wax seal and envelope card had). */}
       <AnimatePresence>
         {!started && (
-          <motion.button
-            type="button"
-            className="luxury-btn envelope-open-btn"
-            onClick={handleOpen}
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6, transition: { duration: 0.35 } }}
             transition={{ delay: 0.4, duration: 0.7 }}
           >
-            افتح الدعوة
-          </motion.button>
+            <span className="btn-float">
+              <button type="button" className="luxury-btn envelope-open-btn" onClick={handleOpen}>
+                افتح الدعوة
+              </button>
+            </span>
+          </motion.div>
         )}
       </AnimatePresence>
     </section>

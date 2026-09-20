@@ -45,14 +45,16 @@ export default function InvitationCard() {
           </div>
         </div>
 
-        <a
-          className="luxury-btn invitation-map-btn"
-          href={weddingConfig.googleMapsUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          اكتشف الموقع
-        </a>
+        <span className="btn-float">
+          <a
+            className="luxury-btn invitation-map-btn"
+            href={weddingConfig.googleMapsUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            اكتشف الموقع
+          </a>
+        </span>
       </motion.div>
     </section>
   );

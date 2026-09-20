@@ -28,16 +28,17 @@ export default function SplashScreen({ onDiscover }: { onDiscover: () => void })
 
         <p className="splash-tagline">بداية حكاية جديدة...</p>
 
-        <motion.button
-          type="button"
-          className="luxury-btn splash-btn"
-          onClick={onDiscover}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.9 }}
         >
-          اكتشف الدعوة
-        </motion.button>
+          <span className="btn-float">
+            <button type="button" className="luxury-btn splash-btn" onClick={onDiscover}>
+              اكتشف الدعوة
+            </button>
+          </span>
+        </motion.div>
       </motion.div>
     </motion.section>
   );
