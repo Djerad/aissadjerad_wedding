@@ -1,0 +1,271 @@
+.envelope-screen {
+  background: linear-gradient(180deg, var(--ivory) 0%, var(--champagne) 100%);
+}
+
+.envelope-eyebrow {
+  position: absolute;
+  top: clamp(48px, 10vh, 90px);
+  text-align: center;
+  width: 100%;
+}
+
+/* Note: this element carries an animated `filter` (for the closing fade).
+   Any element that has both `filter` and `transform-style: preserve-3d`
+   gets its 3D context flattened by the browser, so perspective/preserve-3d
+   for the envelope's moving parts live one level down on `.envelope`
+   instead, which never receives a filter. */
+.envelope-stage {
+  position: relative;
+}
+
+.envelope {
+  position: relative;
+  width: min(84vw, 380px);
+  aspect-ratio: 1.5 / 1;
+  perspective: 1600px;
+  transform-style: preserve-3d;
+}
+
+.envelope-body {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 6px;
+  background: linear-gradient(160deg, #fbf5e7 0%, var(--champagne) 55%, #ecdcc0 100%);
+  border: 1px solid rgba(198, 161, 91, 0.5);
+  box-shadow: 0 30px 45px rgba(63, 81, 69, 0.28);
+  overflow: hidden;
+}
+
+.envelope-body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    115deg,
+    rgba(63, 81, 69, 0.025) 0px,
+    rgba(63, 81, 69, 0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+.envelope-seam {
+  position: absolute;
+  background: linear-gradient(180deg, rgba(63, 81, 69, 0.12), transparent);
+  opacity: 0.55;
+}
+
+.envelope-seam--left {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 52%;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  background: linear-gradient(135deg, transparent 60%, rgba(63, 81, 69, 0.08) 100%);
+}
+
+.envelope-seam--right {
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 52%;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  background: linear-gradient(225deg, transparent 60%, rgba(63, 81, 69, 0.08) 100%);
+}
+
+.envelope-seam--bottom {
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 46%;
+  clip-path: polygon(0 100%, 50% 15%, 100% 100%);
+  background: linear-gradient(0deg, rgba(198, 161, 91, 0.14), transparent 70%);
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 62%;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-style: preserve-3d;
+  z-index: 3;
+}
+
+.envelope-flap-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 4px 4px 0 0;
+}
+
+.envelope-flap-face--outer {
+  background: linear-gradient(155deg, #f8eed7 0%, #ecd8ae 55%, #d7bb82 100%);
+  box-shadow: inset 0 -3px 8px rgba(63, 81, 69, 0.18);
+}
+
+.envelope-flap-face--outer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(180deg, transparent 65%, rgba(63, 81, 69, 0.14) 100%);
+}
+
+.envelope-flap-face--outer::after {
+  content: "";
+  position: absolute;
+  inset: 6px 10px 14px;
+  border: 1.4px solid rgba(198, 161, 91, 0.85);
+  clip-path: polygon(0 0, 100% 0, 50% 96%);
+}
+
+.envelope-flap-face--inner {
+  background: linear-gradient(150deg, #efe3c9 0%, var(--sage) 140%);
+  opacity: 0.9;
+  transform: rotateX(180deg);
+}
+
+/* Clips the card so it can only ever be seen above the envelope's top edge
+   (never poking out the sides or bottom) — top is deliberately left
+   un-clipped (a large negative inset) so the card is free to rise as far
+   above the envelope as the "emerge forward" animation needs. Combined with
+   .envelope-card sitting BEHIND .envelope-body/.envelope-flap in z-index,
+   this is what actually sells "coming out of the envelope": the paper
+   itself hides the card until it physically rises past the fold, rather
+   than the card just fading into view in place. */
+.envelope-card-slot {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  clip-path: inset(-400% 0% 0% 0%);
+  pointer-events: none;
+}
+
+/* Static horizontal centering lives here, not on .envelope-card: that inner
+   element is a motion.div animating `y`/`scale`, and Framer Motion owns the
+   `transform` style outright on anything it animates — a CSS
+   translateX(-50%) placed there would get silently dropped the moment the
+   animation starts (same issue the wax seal had). */
+.envelope-card-anchor {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  width: 74%;
+  transform: translateX(-50%);
+}
+
+.envelope-card {
+  aspect-ratio: 1 / 1.3;
+  background: linear-gradient(165deg, #ffffff 0%, var(--ivory) 100%);
+  border: 1px solid rgba(198, 161, 91, 0.4);
+  border-radius: 4px;
+  box-shadow: 0 12px 30px rgba(63, 81, 69, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.envelope-card-initials {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: var(--dark-green);
+  display: flex;
+  gap: 8px;
+}
+
+.envelope-card-initials span {
+  color: var(--gold);
+}
+
+.envelope-card-rule {
+  width: 34px;
+  height: 1.5px;
+  background: var(--gold);
+}
+
+/* Positioning lives on this plain wrapper, not on .wax-seal itself: Framer
+   Motion animates .wax-seal's `scale`, which makes it own that element's
+   `transform` style outright and would silently overwrite a CSS
+   translate(-50%,-50%) placed there — throwing the centering off. */
+.wax-seal-position {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 58px;
+  height: 58px;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+.wax-seal {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d6b06a, var(--gold) 55%, #9c7a3e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(63, 81, 69, 0.25);
+}
+
+.wax-seal-initials {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--ivory);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.envelope-decor {
+  opacity: 0.7;
+}
+
+.envelope-decor--tl {
+  top: -30px;
+  left: -20px;
+}
+
+.envelope-decor--br {
+  bottom: -30px;
+  right: -20px;
+}
+
+.envelope-open-btn {
+  position: relative;
+  z-index: 5;
+  margin-top: clamp(28px, 6vh, 56px);
+}
+
+@media (max-width: 380px) {
+  .envelope {
+    width: 88vw;
+  }
+  .wax-seal-position {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Short viewports (landscape phones, a small resized desktop window, an
+   on-screen keyboard eating vertical space) — shrink everything so the
+   "افتح الدعوة" button stays comfortably on screen without relying on the
+   .screen overflow-y fallback. */
+@media (max-height: 640px) {
+  .envelope-eyebrow {
+    top: clamp(16px, 5vh, 32px);
+  }
+
+  .envelope {
+    width: min(56vw, 260px);
+  }
+
+  .envelope-open-btn {
+    margin-top: clamp(14px, 3vh, 24px);
+  }
+}
+

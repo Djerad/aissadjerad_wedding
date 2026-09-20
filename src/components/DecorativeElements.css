@@ -1,0 +1,95 @@
+.botanical-corner {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+@media (min-width: 480px) {
+  .botanical-corner {
+    width: 96px;
+    height: 96px;
+  }
+}
+
+.botanical-corner--top-right {
+  top: 10px;
+  right: 10px;
+}
+
+.botanical-corner--top-left {
+  top: 10px;
+  left: 10px;
+  transform: scaleX(-1);
+}
+
+.botanical-corner--bottom-right {
+  bottom: 10px;
+  right: 10px;
+  transform: scaleY(-1);
+}
+
+.botanical-corner--bottom-left {
+  bottom: 10px;
+  left: 10px;
+  transform: scale(-1, -1);
+}
+
+.petal-field,
+.gold-particle-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.petal {
+  position: absolute;
+  top: -5%;
+  border-radius: 60% 40% 55% 45% / 55% 45% 60% 40%;
+  background: linear-gradient(135deg, var(--champagne), var(--gold-light));
+  opacity: 0.55;
+  animation: petal-fall linear infinite;
+  will-change: transform;
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.55;
+  }
+  92% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(115vh) translateX(var(--drift)) rotate(220deg);
+    opacity: 0;
+  }
+}
+
+.gold-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 6px 1px rgba(198, 161, 91, 0.6);
+  animation: sparkle ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.4);
+  }
+}

@@ -1,0 +1,34 @@
+.splash-screen {
+  background: radial-gradient(circle at 50% 20%, var(--champagne) 0%, var(--ivory) 65%);
+}
+
+.splash-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 420px;
+}
+
+.splash-initials {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 14vw, 4.5rem);
+  color: var(--dark-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  line-height: 1;
+}
+
+.splash-tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 4vw, 1.35rem);
+  color: var(--dark-green);
+  margin: 4px 0 40px;
+  opacity: 0.85;
+}
+
+.splash-btn {
+  min-width: 200px;
+}

@@ -1,0 +1,171 @@
+:root {
+  --ivory: #fffdf7;
+  --sage: #a8b5a2;
+  --sage-dark: #8a9a83;
+  --gold: #c6a15b;
+  --gold-light: #e0c98f;
+  --dark-green: #3f5145;
+  --champagne: #f3e7d3;
+  --ink: #2c3830;
+
+  --font-display: "Noto Kufi Arabic", "Tajawal", sans-serif;
+  --font-body: "Tajawal", "Noto Kufi Arabic", sans-serif;
+  --font-serif: "Amiri", "Noto Kufi Arabic", serif;
+  --font-calligraphy: "Aref Ruqaa", "Amiri", serif;
+
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background: var(--ivory);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--dark-green);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  width: 100%;
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--gold-light);
+  color: var(--ink);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.gold-divider {
+  width: 64px;
+  height: 2px;
+  margin: 18px auto;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  border-radius: 2px;
+}
+
+.eyebrow {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+}
+
+.luxury-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 38px;
+  min-height: 48px;
+  border-radius: 999px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--dark-green);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background 0.4s var(--ease-soft), color 0.4s var(--ease-soft),
+    box-shadow 0.4s var(--ease-soft), transform 0.2s var(--ease-soft);
+  box-shadow: 0 2px 18px rgba(198, 161, 91, 0.15);
+}
+
+.luxury-btn:hover {
+  background: var(--gold);
+  color: var(--ivory);
+  box-shadow: 0 6px 24px rgba(198, 161, 91, 0.35);
+}
+
+.luxury-btn:active {
+  transform: scale(0.97);
+}
+
+.luxury-btn:focus-visible {
+  outline: 2px solid var(--dark-green);
+  outline-offset: 3px;
+}
+
+/* Full-viewport overlay used by the pre-invitation stages (splash, envelope).
+   Fixed positioning keeps them pinned above the invitation page while they
+   fade in/out, instead of pushing that page down in normal document flow. */
+.screen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom);
+  overflow-x: hidden;
+  /* Safety net: on very short viewports (landscape phones, a resized
+     desktop window, an on-screen keyboard eating vertical space) the
+     envelope + its "افتح الدعوة" button must never become unreachable.
+     auto only kicks in a scrollbar when content actually overflows. */
+  overflow-y: auto;
+}
+
+/* The final, single scrollable invitation page — normal document flow. */
+.invite-section {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(56px, 10vh, 100px) 20px;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
